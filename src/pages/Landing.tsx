@@ -54,7 +54,7 @@ const JOURNEY_STEPS = [
 ];
 
 const TESTIMONIALS = [
-  { name: "Priya & Arjun",   role: "Married Dec 2024", quote: "WedGuru made our 400-guest wedding feel manageable. The guest seating tool alone saved us weeks.",               rating: 5, avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=80&q=80" },
+  { name: "Ram & Sita",     role: "Married Dec 2024", quote: "WedGuru made our 400-guest wedding feel manageable. The guest seating tool alone saved us weeks.",               rating: 5, avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=80&q=80" },
   { name: "Meera & Karthik", role: "Married Feb 2025", quote: "The AI planner answered every obscure question. It felt like having a wedding coordinator in our pocket.",       rating: 5, avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80" },
   { name: "Ananya & Dev",    role: "Planning Nov 2025", quote: "Budget tracking is brilliant. We finally know where every dollar is going — no more spreadsheet chaos.", rating: 5, avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&w=80&q=80" },
 ];
@@ -76,8 +76,8 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
 
 function SectionPill({ children }: { children: React.ReactNode }) {
   return (
-    <Badge variant="default" className="mb-4 text-xs tracking-widest uppercase font-bold px-3 py-1.5">
-      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
+    <Badge variant="default" className="mb-5 gap-2 text-xs tracking-widest uppercase font-bold px-3.5 py-1.5">
+      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block shrink-0" />
       {children}
     </Badge>
   );
@@ -145,9 +145,6 @@ function Navbar() {
           <Button variant="ghost" size="sm" asChild>
             <Link to="/login">Sign in</Link>
           </Button>
-          <Button variant="gradient" size="sm" asChild>
-            <Link to="/register">Start free</Link>
-          </Button>
         </div>
 
         {/* Mobile hamburger */}
@@ -165,8 +162,7 @@ function Navbar() {
             </button>
           ))}
           <div className="landing-nav-mobile-cta">
-            <Button variant="muted" asChild className="flex-1"><Link to="/login">Sign in</Link></Button>
-            <Button variant="gradient" asChild className="flex-1"><Link to="/register">Start free</Link></Button>
+            <Button variant="gradient" asChild className="flex-1"><Link to="/login">Sign in</Link></Button>
           </div>
         </motion.div>
       )}
@@ -231,7 +227,7 @@ function HeroSection() {
             <div className="hero-card-header">
               <div className="hero-card-avatar" />
               <div>
-                <div className="hero-card-name">Priya &amp; Arjun's Wedding</div>
+                <div className="hero-card-name">Ram &amp; Sita's Wedding</div>
                 <div className="hero-card-date">December 18, 2025 · Singapore</div>
               </div>
               <Badge variant="subtle" className="ml-auto bg-emerald-50 border-emerald-200 text-emerald-700 text-[0.7rem]">On Track</Badge>
@@ -332,7 +328,7 @@ function FeaturesSection() {
         </div>
 
         {/* Gradient divider */}
-        <Separator className="my-14" />
+        <Separator className="my-16" />
 
         {/* Testimonials */}
         <FadeUp delay={0.1}>
@@ -461,7 +457,7 @@ function DemoCreateAccount() {
       </div>
       <div className="flex flex-col gap-1">
         <Label>Your name</Label>
-        <Input readOnly value="Priya Sharma" className="bg-white/80 text-sm py-2" />
+        <Input readOnly value="Sita" className="bg-white/80 text-sm py-2" />
       </div>
       <Button variant="gradient" size="sm" className="mt-1 self-start gap-2">
         <Heart size={13} fill="white" /> Create my plan
@@ -647,11 +643,11 @@ function ContactSection() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex flex-col gap-2">
                         <Label htmlFor="c-name">Full name *</Label>
-                        <Input id="c-name" type="text" placeholder="Priya Sharma" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required autoComplete="name" />
+                        <Input id="c-name" type="text" placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required autoComplete="name" />
                       </div>
                       <div className="flex flex-col gap-2">
                         <Label htmlFor="c-email">Email address *</Label>
-                        <Input id="c-email" type="email" placeholder="priya@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required autoComplete="email" />
+                        <Input id="c-email" type="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required autoComplete="email" />
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
