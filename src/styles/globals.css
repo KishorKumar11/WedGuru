@@ -467,7 +467,6 @@ a {
   width: min(1160px, 92%);
   margin: 0 auto;
   padding: 8rem 0 5rem;
-  overflow: hidden;
 }
 
 /* Gradient mesh orbs */
@@ -601,10 +600,11 @@ a {
   margin-bottom: 1rem;
 }
 
-/* Hero visual */
+/* Hero visual — padding creates room for the absolutely-positioned floating badges */
 .hero-visual {
   position: relative;
   z-index: 1;
+  padding: 1.5rem 2.75rem 1.75rem 2rem;
 }
 
 .hero-card-main {
@@ -744,11 +744,11 @@ a {
 
 .hero-float-guests {
   top: -1rem;
-  right: -1.25rem;
+  right: 9.25rem;
 }
 
 .hero-float-ai {
-  bottom: 40%;
+  bottom: 24%;
   right: -2rem;
 }
 
