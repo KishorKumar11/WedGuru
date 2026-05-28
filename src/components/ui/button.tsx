@@ -14,6 +14,8 @@ const buttonVariants = cva(
           "border-2 border-rose-300 bg-white/60 text-love-700 hover:bg-rose-50 hover:border-rose-400 backdrop-blur-sm",
         ghost:
           "text-love-700 hover:bg-rose-50/80 hover:text-love-700",
+        bordered:
+          "border border-rose-300 bg-white/80 text-love-700 shadow-sm hover:bg-rose-50 hover:border-rose-400 hover:shadow-rose-200/50 hover:shadow-md backdrop-blur-sm active:scale-[0.98]",
         muted:
           "bg-gradient-to-r from-white to-rose-50 text-love-900 border border-rose-200/60 hover:border-rose-300 shadow-sm",
         gradient:

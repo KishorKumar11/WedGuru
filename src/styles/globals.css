@@ -302,17 +302,10 @@ a {
 }
 
 .landing-nav--scrolled {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.78),
-    rgba(255, 228, 240, 0.60)
-  );
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: linear-gradient(135deg, #fff5f8 0%, #ffe8f2 100%);
   box-shadow:
-    0 1px 0 rgba(214, 123, 160, 0.18),
-    0 4px 24px rgba(110, 48, 79, 0.07),
-    inset 0 -1px 0 rgba(214, 123, 160, 0.10);
+    0 1px 0 rgba(214, 123, 160, 0.20),
+    0 4px 28px rgba(110, 48, 79, 0.09);
 }
 
 .landing-nav-inner {
@@ -434,14 +427,8 @@ a {
   flex-direction: column;
   gap: 4px;
   padding: 1rem;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.90),
-    rgba(255, 228, 240, 0.75)
-  );
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.60);
+  background: linear-gradient(135deg, #fff5f8 0%, #ffe8f2 100%);
+  border-top: 1px solid rgba(214, 123, 160, 0.15);
   box-shadow: 0 8px 24px rgba(110, 48, 79, 0.10);
 }
 
@@ -869,8 +856,10 @@ a {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
   gap: 20px;
   margin-bottom: 5rem;
+  align-items: stretch;
 }
 
 .feature-card {

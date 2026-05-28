@@ -14,7 +14,6 @@ import {
   Phone,
   MapPin,
   ChevronDown,
-  Star,
   Heart,
   Menu,
   X,
@@ -46,18 +45,13 @@ const FEATURES = [
 ];
 
 const JOURNEY_STEPS = [
-  { step: "01", title: "Create your account",  desc: "Sign up in 30 seconds. Set your wedding date and location to personalise your entire planning experience.", icon: Heart,          color: "#fff1f6", border: "rgba(214,123,160,0.3)" },
-  { step: "02", title: "Build your checklist", desc: "Your AI-generated phase timeline kicks in immediately — tasks sorted from 12 months out to the big day.",   icon: CalendarCheck2, color: "#fef9f0", border: "rgba(198,143,90,0.3)" },
-  { step: "03", title: "Set your budget",      desc: "Enter your total budget. Add expected and actual costs per category, watch the donut chart fill up.",         icon: Wallet,         color: "#f5f0ff", border: "rgba(160,82,122,0.3)" },
-  { step: "04", title: "Invite your guests",   desc: "Send magic invite links. Guests RSVP, share photos, and get auto-seated with your seating plan.",            icon: Users,          color: "#f0fff4", border: "rgba(72,160,120,0.3)" },
-  { step: "05", title: "Walk down the aisle",  desc: "Everything handled. Every seat filled. Every memory saved. Just show up and say I do.",                       icon: Sparkles,       color: "#fff5f0", border: "rgba(214,123,160,0.4)" },
+  { step: "01", title: "Create your account",  desc: "Sign up in 30 seconds. Set your wedding date and location to personalise your entire planning experience.", icon: Heart,          color: "#fff1f6", border: "rgba(214,123,160,0.32)" },
+  { step: "02", title: "Build your checklist", desc: "Your AI-generated phase timeline kicks in immediately — tasks sorted from 12 months out to the big day.",   icon: CalendarCheck2, color: "#fce7f0", border: "rgba(200,106,149,0.30)" },
+  { step: "03", title: "Set your budget",      desc: "Enter your total budget. Add expected and actual costs per category, watch the donut chart fill up.",         icon: Wallet,         color: "#fff1f6", border: "rgba(184,92,138,0.30)" },
+  { step: "04", title: "Invite your guests",   desc: "Send magic invite links. Guests RSVP, share photos, and get auto-seated with your seating plan.",            icon: Users,          color: "#fce7f0", border: "rgba(214,123,160,0.32)" },
+  { step: "05", title: "Walk down the aisle",  desc: "Everything handled. Every seat filled. Every memory saved. Just show up and say I do.",                       icon: Sparkles,       color: "#fff5f8", border: "rgba(214,123,160,0.42)" },
 ];
 
-const TESTIMONIALS = [
-  { name: "Ram & Sita",     role: "Married Dec 2024", quote: "WedGuru made our 400-guest wedding feel manageable. The guest seating tool alone saved us weeks.",               rating: 5, avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=80&q=80" },
-  { name: "Meera & Karthik", role: "Married Feb 2025", quote: "The AI planner answered every obscure question. It felt like having a wedding coordinator in our pocket.",       rating: 5, avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80" },
-  { name: "Ananya & Dev",    role: "Planning Nov 2025", quote: "Budget tracking is brilliant. We finally know where every dollar is going — no more spreadsheet chaos.", rating: 5, avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&w=80&q=80" },
-];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function scrollTo(href: string) {
@@ -142,7 +136,7 @@ function Navbar() {
 
         {/* CTA */}
         <div className="landing-nav-cta">
-          <Button variant="ghost" size="sm" asChild>
+          <Button variant="bordered" size="sm" asChild>
             <Link to="/login">Sign in</Link>
           </Button>
         </div>
@@ -193,7 +187,7 @@ function HeroSection() {
           <Badge variant="default" className="mb-6 gap-2 border-rose-300/60 bg-gradient-to-r from-rose-50 to-pink-100 text-love-700 shadow-sm">
             <Sparkles size={12} />
             AI-powered wedding planning
-            <Badge variant="new" className="ml-1">New</Badge>
+            {/* <Badge variant="new" className="ml-1">New</Badge> */}
           </Badge>
         </motion.div>
 
@@ -211,7 +205,7 @@ function HeroSection() {
         <motion.div className="hero-cta-row" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
           <Button variant="gradient" size="lg" asChild>
             <Link to="/register">
-              Start planning free <ArrowRight size={17} />
+              Start planning <ArrowRight size={17} />
             </Link>
           </Button>
           <Button variant="outline" size="lg" onClick={() => scrollTo("#demo")}>
@@ -308,17 +302,22 @@ function FeaturesSection() {
 
         <div className="features-grid">
           {FEATURES.map(({ icon: Icon, title, desc, accent }, i) => (
-            <FadeUp key={title} delay={i * 0.07}>
-              <Card className="feature-card group glass border-0 hover:-translate-y-1.5 transition-all duration-300 hover:shadow-[0_20px_48px_rgba(110,48,79,0.16)]">
+            <FadeUp key={title} delay={i * 0.07} className="h-full">
+              <Card className="feature-card group glass border-0 h-full flex flex-col transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_24px_56px_rgba(110,48,79,0.18)]">
                 <CardHeader className="pb-2">
-                  <div className="feature-icon-wrap mb-2" style={{ background: `${accent}18`, color: accent }}>
+                  <motion.div
+                    className="feature-icon-wrap mb-3"
+                    style={{ background: `${accent}18`, color: accent }}
+                    whileHover={{ scale: 1.15, rotate: 6 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  >
                     <Icon size={22} />
-                  </div>
+                  </motion.div>
                   <CardTitle className="text-base font-bold text-love-900">{title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-rose-700/65 leading-relaxed">{desc}</CardDescription>
-                  <Link to="/register" className="feature-link mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 group-hover:gap-2.5 transition-all">
+                <CardContent className="flex flex-col flex-1">
+                  <CardDescription className="text-rose-700/65 leading-relaxed flex-1">{desc}</CardDescription>
+                  <Link to="/register" className="feature-link mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 group-hover:gap-2.5 transition-all">
                     Explore <ArrowRight size={12} />
                   </Link>
                 </CardContent>
@@ -327,38 +326,6 @@ function FeaturesSection() {
           ))}
         </div>
 
-        {/* Gradient divider */}
-        <Separator className="my-16" />
-
-        {/* Testimonials */}
-        <FadeUp delay={0.1}>
-          <SectionPill>Loved by couples</SectionPill>
-          <h3 className="landing-section-title text-2xl mb-8">Real stories, real weddings</h3>
-        </FadeUp>
-
-        <div className="testimonials-grid">
-          {TESTIMONIALS.map(({ name, role, quote, rating, avatar }, i) => (
-            <FadeUp key={name} delay={i * 0.08}>
-              <Card className="testimonial-card glass border-0 h-full flex flex-col">
-                <CardContent className="p-5 flex flex-col gap-3 h-full">
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: rating }).map((_, j) => (
-                      <Star key={j} size={13} fill="#d67ba0" color="#d67ba0" />
-                    ))}
-                  </div>
-                  <p className="text-[0.88rem] italic leading-relaxed text-love-800 flex-1">"{quote}"</p>
-                  <div className="flex items-center gap-3 pt-1">
-                    <img src={avatar} alt={name} className="w-9 h-9 rounded-full object-cover border-2 border-rose-200/60" />
-                    <div>
-                      <div className="text-sm font-bold text-love-900">{name}</div>
-                      <div className="text-xs text-rose-400">{role}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </FadeUp>
-          ))}
-        </div>
       </div>
     </section>
   );
