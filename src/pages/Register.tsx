@@ -22,7 +22,7 @@ export default function Register() {
   }
 
   return (
-    <div className="container" style={{ padding: "3rem 0" }}>
+    <div className="container page-shell">
       <form className="glass" style={{ maxWidth: 430, margin: "0 auto", padding: "1.4rem" }} onSubmit={onSubmit}>
         <h1 className="page-title">Create your wedding space</h1>
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />

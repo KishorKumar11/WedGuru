@@ -30,7 +30,7 @@ export default function Invite() {
   }
 
   return (
-    <div className="container" style={{ padding: "3rem 0" }}>
+    <div className="container page-shell" style={{ justifyContent: "flex-start" }}>
       <InviteCard title="You're Invited" subtitle="Please confirm your RSVP and any preferences." />
       <section className="glass" style={{ maxWidth: 580, margin: "1rem auto 0", padding: "1.25rem" }}>
         <p>Guest: {guest?.name ?? "Loading..."}</p>

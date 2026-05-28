@@ -21,7 +21,7 @@ export default function Login() {
   }
 
   return (
-    <div className="container" style={{ padding: "3rem 0" }}>
+    <div className="container page-shell">
       <form className="glass" style={{ maxWidth: 430, margin: "0 auto", padding: "1.4rem" }} onSubmit={onSubmit}>
         <h1 className="page-title">Welcome back</h1>
         <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />

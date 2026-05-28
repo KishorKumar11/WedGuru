@@ -4,7 +4,7 @@ import { weddingThemeIdeas } from "../lib/theme-ideas";
 
 export default function Landing() {
   return (
-    <div className="container auth-shell" style={{ padding: "3rem 0" }}>
+    <div className="container page-shell" style={{ justifyContent: "flex-start", gap: 18 }}>
       <section className="glass" style={{ padding: "2.5rem", textAlign: "center" }}>
         <h1 className="page-title" style={{ fontSize: "3rem" }}>Plan your perfect day</h1>
         <p style={{ maxWidth: 580, margin: "0 auto 1.25rem" }}>
@@ -13,7 +13,6 @@ export default function Landing() {
         <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
           <Link className="btn btn-primary" to="/register">Get Started</Link>
           <Link className="btn btn-muted" to="/login">Login</Link>
-          <Link className="btn btn-muted" to="/themes">Explore Themes</Link>
         </div>
       </section>
       <section style={{ marginTop: 18 }}>
