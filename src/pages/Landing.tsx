@@ -1,3 +1,4 @@
+import { CalendarCheck2, Palette, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import ThemeCard from "../components/ThemeCard";
@@ -44,15 +45,30 @@ export default function Landing() {
       </section>
       <section className="responsive-grid-3 reveal-up reveal-delay-2">
         <article className="glass" style={{ padding: "1rem" }}>
-          <h3 style={{ marginTop: 0 }}>♡ Plan with confidence</h3>
+          <h3 className="icon-title" style={{ marginTop: 0 }}>
+            <span className="icon-badge">
+              <CalendarCheck2 size={16} />
+            </span>
+            Plan with confidence
+          </h3>
           <p className="muted-label">Timeline checklist pre-filled by wedding phase, so you always know next step.</p>
         </article>
         <article className="glass" style={{ padding: "1rem" }}>
-          <h3 style={{ marginTop: 0 }}>✿ Keep money in control</h3>
+          <h3 className="icon-title" style={{ marginTop: 0 }}>
+            <span className="icon-badge">
+              <Wallet size={16} />
+            </span>
+            Keep money in control
+          </h3>
           <p className="muted-label">Budget snapshots by category help avoid overspending surprises.</p>
         </article>
         <article className="glass" style={{ padding: "1rem" }}>
-          <h3 style={{ marginTop: 0 }}>❀ Design your vibe</h3>
+          <h3 className="icon-title" style={{ marginTop: 0 }}>
+            <span className="icon-badge">
+              <Palette size={16} />
+            </span>
+            Design your vibe
+          </h3>
           <p className="muted-label">Theme ideas with curated palettes and visual references for easy decisions.</p>
         </article>
       </section>

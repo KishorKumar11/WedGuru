@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import BudgetDonut from "../components/BudgetDonut";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import GlassCard from "../components/GlassCard";
 import { apiRequest } from "../lib/api";
 import type { BudgetItem } from "../lib/types";
 
 const categories = ["Venue", "Catering", "Photography", "Flowers", "Attire", "Music/DJ", "Decor", "Invitations", "Transport", "Honeymoon", "Miscellaneous"];
+const BudgetDonut = lazy(() => import("../components/BudgetDonut"));
 
 export default function Budget() {
   const [items, setItems] = useState<BudgetItem[]>([]);
@@ -46,7 +46,9 @@ export default function Budget() {
         <p>Estimated: ${totals.estimated.toFixed(2)} | Actual: ${totals.actual.toFixed(2)}</p>
       </GlassCard>
       <GlassCard title="Spending by category">
-        <BudgetDonut items={items} />
+        <Suspense fallback={<p className="muted-label">Loading chart...</p>}>
+          <BudgetDonut items={items} />
+        </Suspense>
       </GlassCard>
       <GlassCard title="Add expense">
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr auto", gap: 8 }}>
