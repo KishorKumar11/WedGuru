@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import ChecklistItem from "../components/ChecklistItem";
 import GlassCard from "../components/GlassCard";
 import { apiRequest } from "../lib/api";
@@ -9,6 +10,7 @@ export default function Checklist() {
   const [items, setItems] = useState<ChecklistItemType[]>([]);
   const [newTitle, setNewTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
 
   async function loadItems() {
     const data = await apiRequest<{ items: ChecklistItemType[] }>("/checklist");
@@ -25,6 +27,16 @@ export default function Checklist() {
     }
     const completedCount = items.filter((item) => item.isCompleted).length;
     return Math.round((completedCount / items.length) * 100);
+  }, [items]);
+
+  const groupedItems = useMemo(() => {
+    return items.reduce<Record<string, ChecklistItemType[]>>((acc, item) => {
+      const group = item.monthsBefore || "custom";
+      const groupItems = acc[group] ?? [];
+      groupItems.push(item);
+      acc[group] = groupItems;
+      return acc;
+    }, {});
   }, [items]);
 
   async function loadTemplate() {
@@ -95,9 +107,33 @@ export default function Checklist() {
         {isLoading ? (
           <p>Loading checklist...</p>
         ) : (
-          <div style={{ display: "grid", gap: 10 }}>
-            {items.map((item) => (
-              <ChecklistItem key={item._id} item={item} onToggle={toggleTask} onDelete={deleteTask} />
+          <div style={{ display: "grid", gap: 12 }}>
+            {Object.entries(groupedItems).map(([group, groupItems]) => (
+              <section key={group} className="glass" style={{ padding: "0.8rem" }}>
+                <button
+                  type="button"
+                  className="btn btn-muted"
+                  style={{ marginBottom: 8 }}
+                  onClick={() => setCollapsedGroups((prev) => ({ ...prev, [group]: !prev[group] }))}
+                >
+                  {collapsedGroups[group] ? "Show" : "Hide"} {group}
+                </button>
+                <AnimatePresence initial={false}>
+                  {!collapsedGroups[group] ? (
+                    <motion.div
+                      key={group}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      style={{ display: "grid", gap: 10 }}
+                    >
+                      {groupItems.map((item) => (
+                        <ChecklistItem key={item._id} item={item} onToggle={toggleTask} onDelete={deleteTask} />
+                      ))}
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </section>
             ))}
           </div>
         )}

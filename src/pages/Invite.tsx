@@ -8,6 +8,9 @@ export default function Invite() {
   const { token } = useParams();
   const [guest, setGuest] = useState<Guest | null>(null);
   const [status, setStatus] = useState<Guest["rsvpStatus"]>("pending");
+  const [dietary, setDietary] = useState("none");
+  const [plusOne, setPlusOne] = useState(false);
+  const [plusOneName, setPlusOneName] = useState("");
   const [songRequest, setSongRequest] = useState("");
   const [message, setMessage] = useState("");
 
@@ -25,7 +28,10 @@ export default function Invite() {
     if (!token) {
       return;
     }
-    await apiRequest(`/invite/${token}`, { method: "PUT", bodyData: { rsvpStatus: status, songRequest } });
+    await apiRequest(`/invite/${token}`, {
+      method: "PUT",
+      bodyData: { rsvpStatus: status, dietary, plusOne, plusOneName: plusOne ? plusOneName : "", songRequest },
+    });
     setMessage("Thank you. RSVP saved.");
   }
 
@@ -48,6 +54,25 @@ export default function Invite() {
           placeholder="Song request"
           style={{ width: "100%", marginTop: 10, padding: 10 }}
         />
+        <select value={dietary} onChange={(event) => setDietary(event.target.value)} style={{ width: "100%", marginTop: 10, padding: 10 }}>
+          <option value="none">No dietary preference</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="vegan">Vegan</option>
+          <option value="halal">Halal</option>
+          <option value="gluten-free">Gluten-free</option>
+        </select>
+        <label style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10 }}>
+          <input type="checkbox" checked={plusOne} onChange={(event) => setPlusOne(event.target.checked)} />
+          Bringing plus one
+        </label>
+        {plusOne ? (
+          <input
+            value={plusOneName}
+            onChange={(event) => setPlusOneName(event.target.value)}
+            placeholder="Plus one name"
+            style={{ width: "100%", marginTop: 10, padding: 10 }}
+          />
+        ) : null}
         <button className="btn btn-primary" type="button" onClick={() => void submitRsvp()}>
           Submit RSVP
         </button>

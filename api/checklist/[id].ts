@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
-import { getUserId } from "../_utils.js";
+import { getUserId } from "../../lib/api-auth.js";
 import { connectDb } from "../../lib/db.js";
 import ChecklistItem from "../../lib/models/ChecklistItem.js";
 

@@ -1,14 +1,10 @@
 import { parse } from "cookie";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { verifyAuthToken } from "../lib/auth.js";
-
-export function sendJson(res: VercelResponse, status: number, payload: unknown) {
-  res.status(status).json(payload);
-}
+import type { VercelRequest } from "@vercel/node";
+import { verifyAuthToken } from "./auth.js";
 
 export function getTokenFromRequest(req: VercelRequest) {
   const cookies = parse(req.headers.cookie ?? "");
-  return cookies.wedguru_token;
+  return cookies.aisle_token;
 }
 
 export function getUserId(req: VercelRequest) {

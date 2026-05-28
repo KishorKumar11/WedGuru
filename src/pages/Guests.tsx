@@ -8,6 +8,7 @@ export default function Guests() {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<Guest["rsvpStatus"] | "all">("all");
 
   async function loadGuests() {
@@ -20,8 +21,23 @@ export default function Guests() {
   }, []);
 
   const filteredGuests = useMemo(
-    () => guests.filter((guest) => (filter === "all" ? true : guest.rsvpStatus === filter)),
-    [filter, guests],
+    () =>
+      guests.filter((guest) => {
+        const statusMatch = filter === "all" ? true : guest.rsvpStatus === filter;
+        const searchMatch = guest.name.toLowerCase().includes(search.toLowerCase());
+        return statusMatch && searchMatch;
+      }),
+    [filter, guests, search],
+  );
+
+  const summary = useMemo(
+    () => ({
+      total: guests.length,
+      accepted: guests.filter((guest) => guest.rsvpStatus === "accepted").length,
+      declined: guests.filter((guest) => guest.rsvpStatus === "declined").length,
+      pending: guests.filter((guest) => guest.rsvpStatus === "pending").length,
+    }),
+    [guests],
   );
 
   async function addGuest() {
@@ -39,10 +55,25 @@ export default function Guests() {
     await loadGuests();
   }
 
+  async function copyInviteLink(token: string) {
+    const inviteUrl = `${window.location.origin}/invite/${token}`;
+    await navigator.clipboard.writeText(inviteUrl);
+  }
+
+  function exportCsv() {
+    const link = document.createElement("a");
+    link.href = "/api/guests?format=csv";
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.click();
+  }
+
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <GlassCard title="Guest Summary">
-        <p>Total guests: {guests.length}</p>
+        <p>
+          Total: {summary.total} | Accepted: {summary.accepted} | Pending: {summary.pending} | Declined: {summary.declined}
+        </p>
         <div style={{ display: "flex", gap: 8 }}>
           <button className="btn btn-muted" type="button" onClick={() => setFilter("all")}>
             All
@@ -56,7 +87,16 @@ export default function Guests() {
           <button className="btn btn-muted" type="button" onClick={() => setFilter("declined")}>
             Declined
           </button>
+          <button className="btn btn-muted" type="button" onClick={exportCsv}>
+            Export CSV
+          </button>
         </div>
+        <input
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Search by guest name"
+          style={{ marginTop: 8, padding: 8, width: "100%", maxWidth: 320 }}
+        />
       </GlassCard>
 
       <GlassCard title="Add Guest">
@@ -72,7 +112,12 @@ export default function Guests() {
       <GlassCard title="Guest List">
         <div style={{ display: "grid", gap: 8 }}>
           {filteredGuests.map((guest) => (
-            <GuestRow key={guest._id} guest={guest} onStatusChange={updateStatus} />
+            <div key={guest._id} style={{ display: "grid", gap: 8 }}>
+              <GuestRow guest={guest} onStatusChange={updateStatus} />
+              <button className="btn btn-muted" type="button" onClick={() => void copyInviteLink(guest.inviteToken)}>
+                Copy invite link
+              </button>
+            </div>
           ))}
         </div>
       </GlassCard>
