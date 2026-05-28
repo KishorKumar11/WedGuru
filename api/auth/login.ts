@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { authCookie, signAuthToken } from "../../lib/auth";
-import { connectDb } from "../../lib/db";
-import User from "../../lib/models/User";
+import { authCookie, signAuthToken } from "../../lib/auth.js";
+import { connectDb } from "../../lib/db.js";
+import User from "../../lib/models/User.js";
 
 const schema = z.object({
   email: z.string().email(),

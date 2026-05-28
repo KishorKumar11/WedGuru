@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { apiRequest } from "../lib/api";
 import type { User } from "../lib/types";
 
@@ -12,7 +13,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,14 +31,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       async login(email, password) {
         const data = await apiRequest<{ user: User }>("/auth/login", {
           method: "POST",
-          body: { email, password },
+          bodyData: { email, password },
         });
         setUser(data.user);
       },
       async register(payload) {
         const data = await apiRequest<{ user: User }>("/auth/register", {
           method: "POST",
-          body: payload,
+          bodyData: payload,
         });
         setUser(data.user);
       },

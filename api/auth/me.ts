@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getUserId } from "../_utils";
-import { connectDb } from "../../lib/db";
-import User from "../../lib/models/User";
+import { getUserId } from "../_utils.js";
+import { connectDb } from "../../lib/db.js";
+import User from "../../lib/models/User.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

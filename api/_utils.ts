@@ -1,6 +1,6 @@
 import { parse } from "cookie";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { verifyAuthToken } from "../lib/auth";
+import { verifyAuthToken } from "../lib/auth.js";
 
 export function sendJson(res: VercelResponse, status: number, payload: unknown) {
   res.status(status).json(payload);

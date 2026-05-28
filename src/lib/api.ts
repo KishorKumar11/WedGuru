@@ -1,6 +1,6 @@
 const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
 
-type RequestOptions = RequestInit & { body?: unknown };
+type RequestOptions = Omit<RequestInit, "body"> & { bodyData?: unknown };
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = {
@@ -12,7 +12,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     ...options,
     headers,
     credentials: "include",
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    body: options.bodyData ? JSON.stringify(options.bodyData) : undefined,
   });
 
   const payload = await response.json().catch(() => ({}));
