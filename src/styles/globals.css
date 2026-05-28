@@ -3,6 +3,11 @@
 :root {
   --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   --font-body: "DM Sans", "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --rose-100: #fff1f6;
+  --rose-200: #ffdce9;
+  --rose-400: #e89ab8;
+  --rose-500: #d67ba0;
+  --love-700: #6e304f;
   font-family: var(--font-body);
   color: #2d1b33;
   background: #faf8f5;
@@ -21,7 +26,10 @@ body,
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top right, #f5ede4, #faf8f5 55%);
+  background:
+    radial-gradient(circle at 10% 10%, var(--rose-100), transparent 35%),
+    radial-gradient(circle at 90% 0%, #ffe8f1, transparent 35%),
+    radial-gradient(circle at top right, #f5ede4, #faf8f5 55%);
   overflow-x: hidden;
 }
 
@@ -62,6 +70,13 @@ a {
   gap: 12px;
 }
 
+.auth-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
 @media (max-width: 900px) {
   .layout-shell {
     grid-template-columns: 1fr;
@@ -78,8 +93,8 @@ a {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(200, 149, 110, 0.28);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.76), rgba(255, 240, 247, 0.7));
+  border: 1px solid rgba(214, 123, 160, 0.22);
   backdrop-filter: blur(12px);
   border-radius: 18px;
   box-shadow: 0 12px 30px rgba(45, 27, 51, 0.08);
@@ -94,11 +109,32 @@ a {
 }
 
 .btn-primary {
-  background: #c8956e;
+  background: linear-gradient(90deg, var(--rose-500), var(--love-700));
   color: #fff;
 }
 
 .btn-muted {
-  background: #f2e8dd;
+  background: linear-gradient(90deg, #fff, #ffeef5);
   color: #2d1b33;
+}
+
+.muted-label {
+  color: #6f5362;
+  font-size: 0.95rem;
+}
+
+.feature-chip {
+  display: inline-flex;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(232, 154, 184, 0.2);
+  color: #64344b;
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .auth-grid {
+    grid-template-columns: 1fr;
+  }
 }
