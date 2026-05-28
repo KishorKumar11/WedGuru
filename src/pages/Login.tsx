@@ -5,7 +5,7 @@ import AuthInsights from "../components/AuthInsights";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  const { login, loginDemo } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +39,7 @@ export default function Login() {
               className="btn btn-muted"
               type="button"
               onClick={() => {
-                void loginDemo().then(() => navigate("/dashboard")).catch((err: Error) => setError(err.message));
+                void login("demo@wedguru.app", "WedGuru@123").then(() => navigate("/dashboard")).catch((err: Error) => setError(err.message));
               }}
             >
               Try demo account

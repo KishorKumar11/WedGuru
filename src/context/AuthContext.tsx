@@ -7,7 +7,6 @@ interface AuthContextValue {
   user: User | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  loginDemo: () => Promise<void>;
   register: (payload: { name: string; email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -40,12 +39,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const data = await apiRequest<{ user: User }>("/auth/register", {
           method: "POST",
           bodyData: payload,
-        });
-        setUser(data.user);
-      },
-      async loginDemo() {
-        const data = await apiRequest<{ user: User }>("/auth/demo", {
-          method: "POST",
         });
         setUser(data.user);
       },

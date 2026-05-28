@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { Types } from "mongoose";
 import { getUserId } from "../_utils.js";
 import { connectDb } from "../../lib/db.js";
 import User from "../../lib/models/User.js";
@@ -13,7 +14,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   await connectDb();
-  const user = await User.findById(userId).select("-password");
+  const user = await User.findById(new Types.ObjectId(userId)).select("-password");
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" });
   }

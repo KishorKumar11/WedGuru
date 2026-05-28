@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await connectDb();
   const email = parsed.data.email.toLowerCase();
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne().where("email").equals(email);
   if (existingUser) {
     return res.status(409).json({ error: "Email already used" });
   }
