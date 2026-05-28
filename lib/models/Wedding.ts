@@ -1,6 +1,15 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const WeddingSchema = new Schema(
+export interface IWedding {
+  userId: Schema.Types.ObjectId;
+  weddingDate?: Date;
+  venue?: string;
+  budgetTotal: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const WeddingSchema = new Schema<IWedding>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true, unique: true },
     weddingDate: Date,
@@ -10,4 +19,6 @@ const WeddingSchema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Wedding ?? mongoose.model("Wedding", WeddingSchema);
+const WeddingModel =
+  (mongoose.models.Wedding as Model<IWedding> | undefined) ?? mongoose.model<IWedding>("Wedding", WeddingSchema);
+export default WeddingModel;

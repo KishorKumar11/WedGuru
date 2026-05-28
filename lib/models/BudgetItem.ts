@@ -1,6 +1,18 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const BudgetSchema = new Schema(
+export interface IBudgetItem {
+  userId: Schema.Types.ObjectId;
+  category: string;
+  vendor: string;
+  estimated: number;
+  actual: number;
+  paid: boolean;
+  notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const BudgetSchema = new Schema<IBudgetItem>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     category: { type: String, required: true },
@@ -15,4 +27,7 @@ const BudgetSchema = new Schema(
 
 BudgetSchema.index({ userId: 1, category: 1 });
 
-export default mongoose.models.BudgetItem ?? mongoose.model("BudgetItem", BudgetSchema);
+const BudgetItemModel =
+  (mongoose.models.BudgetItem as Model<IBudgetItem> | undefined) ??
+  mongoose.model<IBudgetItem>("BudgetItem", BudgetSchema);
+export default BudgetItemModel;

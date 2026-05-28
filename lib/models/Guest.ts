@@ -1,6 +1,22 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const GuestSchema = new Schema(
+export interface IGuest {
+  userId: Schema.Types.ObjectId;
+  name: string;
+  email?: string;
+  phone?: string;
+  rsvpStatus: "pending" | "accepted" | "declined";
+  dietary?: string;
+  plusOne: boolean;
+  plusOneName?: string;
+  songRequest?: string;
+  tableNumber?: number;
+  inviteToken: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const GuestSchema = new Schema<IGuest>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true },
@@ -19,4 +35,5 @@ const GuestSchema = new Schema(
 
 GuestSchema.index({ userId: 1, rsvpStatus: 1 });
 
-export default mongoose.models.Guest ?? mongoose.model("Guest", GuestSchema);
+const GuestModel = (mongoose.models.Guest as Model<IGuest> | undefined) ?? mongoose.model<IGuest>("Guest", GuestSchema);
+export default GuestModel;

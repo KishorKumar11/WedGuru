@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import PhotoWall from "./pages/PhotoWall";
 import Register from "./pages/Register";
 import Seating from "./pages/Seating";
+import Themes from "./pages/Themes";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/guests" element={<Guests />} />
         <Route path="/seating" element={<Seating />} />
         <Route path="/photos" element={<PhotoWall />} />
+        <Route path="/themes" element={<Themes />} />
         <Route path="/ai-planner" element={<AiPlanner />} />
       </Route>
       <Route path="*" element={<Navigate replace to="/" />} />

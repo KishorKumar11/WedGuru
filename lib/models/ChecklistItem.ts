@@ -1,6 +1,17 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const ChecklistSchema = new Schema(
+export interface IChecklistItem {
+  userId: Schema.Types.ObjectId;
+  title: string;
+  category: string;
+  monthsBefore: string;
+  isCompleted: boolean;
+  order: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const ChecklistSchema = new Schema<IChecklistItem>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true, trim: true },
@@ -14,4 +25,7 @@ const ChecklistSchema = new Schema(
 
 ChecklistSchema.index({ userId: 1, order: 1 });
 
-export default mongoose.models.ChecklistItem ?? mongoose.model("ChecklistItem", ChecklistSchema);
+const ChecklistItemModel =
+  (mongoose.models.ChecklistItem as Model<IChecklistItem> | undefined) ??
+  mongoose.model<IChecklistItem>("ChecklistItem", ChecklistSchema);
+export default ChecklistItemModel;

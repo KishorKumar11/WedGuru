@@ -1,6 +1,16 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const UserSchema = new Schema(
+export interface IUser {
+  email: string;
+  password: string;
+  name: string;
+  partnerName?: string;
+  weddingDate?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const UserSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true, minlength: 8 },
@@ -13,4 +23,5 @@ const UserSchema = new Schema(
 
 UserSchema.index({ email: 1 });
 
-export default mongoose.models.User ?? mongoose.model("User", UserSchema);
+const UserModel = (mongoose.models.User as Model<IUser> | undefined) ?? mongoose.model<IUser>("User", UserSchema);
+export default UserModel;
