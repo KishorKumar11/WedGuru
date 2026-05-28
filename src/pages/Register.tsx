@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthInsights from "../components/AuthInsights";
 import { useAuth } from "../context/AuthContext";
 
 export default function Register() {
@@ -23,15 +24,22 @@ export default function Register() {
 
   return (
     <div className="container page-shell">
-      <form className="glass" style={{ maxWidth: 430, margin: "0 auto", padding: "1.4rem" }} onSubmit={onSubmit}>
-        <h1 className="page-title">Create your wedding space</h1>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />
-        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" minLength={8} placeholder="Password (min 8)" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />
-        {error ? <p style={{ color: "#b42318" }}>{error}</p> : null}
-        <button className="btn btn-primary" type="submit">Create account</button>
-        <p>Have account? <Link to="/login">Login</Link></p>
-      </form>
+      <div className="auth-grid">
+        <form className="glass" style={{ padding: "1.4rem" }} onSubmit={onSubmit}>
+          <span className="feature-chip">Start in 60 seconds</span>
+          <h1 className="page-title" style={{ marginTop: 10 }}>
+            Create your wedding workspace
+          </h1>
+          <p className="muted-label">Set up once. Plan everything with your partner in one serene dashboard.</p>
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" required style={{ width: "100%", margin: "12px 0 10px", padding: 10 }} />
+          <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />
+          <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" minLength={8} placeholder="Password (min 8)" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />
+          {error ? <p style={{ color: "#b42318" }}>{error}</p> : null}
+          <button className="btn btn-primary" type="submit">Create account</button>
+          <p style={{ marginTop: 10 }}>Have account? <Link to="/login">Login</Link></p>
+        </form>
+        <AuthInsights title="See your next best planning step every day" />
+      </div>
     </div>
   );
 }

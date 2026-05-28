@@ -16,7 +16,7 @@ export function verifyAuthToken(token: string) {
 }
 
 export function authCookie(token: string) {
-  return serialize("aisle_token", token, {
+  return serialize("wedguru_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -26,7 +26,7 @@ export function authCookie(token: string) {
 }
 
 export function clearAuthCookie() {
-  return serialize("aisle_token", "", {
+  return serialize("wedguru_token", "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

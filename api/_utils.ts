@@ -8,7 +8,7 @@ export function sendJson(res: VercelResponse, status: number, payload: unknown) 
 
 export function getTokenFromRequest(req: VercelRequest) {
   const cookies = parse(req.headers.cookie ?? "");
-  return cookies.aisle_token;
+  return cookies.wedguru_token;
 }
 
 export function getUserId(req: VercelRequest) {

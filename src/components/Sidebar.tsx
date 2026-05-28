@@ -15,7 +15,7 @@ const links = [
 export default function Sidebar() {
   return (
     <aside className="glass" style={{ padding: "1rem", minWidth: 220 }}>
-      <h2 style={{ fontFamily: "var(--font-display)", marginTop: 0 }}>Aisle</h2>
+      <h2 style={{ fontFamily: "var(--font-display)", marginTop: 0 }}>WedGuru</h2>
       <nav style={{ display: "grid", gap: 8 }}>
         {links.map((link) => (
           <NavLink
