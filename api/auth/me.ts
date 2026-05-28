@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
 import { z } from "zod";
+import { clearAuthCookie } from "../../lib/auth.js";
 import { getUserId } from "../../lib/api-auth.js";
 import { connectDb } from "../../lib/db.js";
 import User from "../../lib/models/User.js";
@@ -44,10 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === "DELETE") {
-    res.setHeader(
-      "Set-Cookie",
-      "aisle_token=; Path=/; HttpOnly; Max-Age=0; SameSite=Lax" + (process.env.NODE_ENV === "production" ? "; Secure" : ""),
-    );
+    res.setHeader("Set-Cookie", clearAuthCookie());
     return res.status(200).json({ ok: true });
   }
 

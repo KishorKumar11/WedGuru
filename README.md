@@ -18,6 +18,50 @@
 
 ---
 
+## Vendors Roadmap (Phased)
+
+### Phase 1 — Foundation (Done)
+- Add `/vendors` page and navigation link
+- Show core coordination blocks:
+  - Vendor sourcing
+  - Contract review
+  - Payment tracking
+  - Logistics alignment
+- Add starter tracker UI for vendor stage and cost visibility
+- Capture future-build note directly on page
+
+### Phase 2 — Core Vendor Management
+- Backend persistence for vendors (create, list, update, delete)
+- Vendor stages: `Lead`, `Shortlisted`, `Booked`, `Rejected`
+- Category tagging: venue, photo, video, makeup, decor, music, catering
+- Budget fields: quoted, negotiated, paid, due
+- Team ownership assignment per vendor
+
+### Phase 3 — Contracts, Reminders, and Attachments
+- Contract metadata: signed date, cancellation terms, overtime rates
+- Payment due tracking: deposit and final balance deadlines
+- Reminder engine for due payments and no-response follow-ups
+- Contact log timeline (calls, emails, notes)
+- File attachments (contracts, invoices, portfolios, moodboards)
+- Risk flags (over budget, slow response, legal/contract risk)
+
+### Phase 4 — Partner Marketplace and In-App Settlement
+- Partnered vendor directory directly inside WedGuru
+- In-app package comparison and shortlisting flow
+- Negotiation tracking and approval workflow
+- Contract finalization flow (future e-sign support)
+- In-app payment settlement and milestone-based release tracking
+- Sync arrangement status between couples, planner, and vendors
+
+### Phase 5 — Intelligence and Automation
+- Vendor scoring/recommendation based on budget, style, and availability
+- Smart conflict detection (timeline, setup, and vendor overlap)
+- Auto-generated outreach summaries and follow-up suggestions
+- Cost variance alerts and projected final-spend warnings
+- AI-assisted vendor decision support across all active quotes
+
+---
+
 ## Tech Stack
 
 **Frontend**

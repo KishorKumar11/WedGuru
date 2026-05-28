@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthInsights from "../components/AuthInsights";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
@@ -22,32 +21,76 @@ export default function Login() {
   }
 
   return (
-    <div className="container page-shell">
-      <div className="auth-grid">
-        <form className="glass" style={{ padding: "1.4rem" }} onSubmit={onSubmit}>
-          <span className="feature-chip">Welcome back</span>
-          <h1 className="page-title" style={{ marginTop: 10 }}>
-            Continue your wedding plan
-          </h1>
-          <p className="muted-label">Login to access timeline tasks, budget view, guests, and themes.</p>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: "100%", margin: "12px 0 10px", padding: 10 }} />
-          <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required style={{ width: "100%", marginBottom: 10, padding: 10 }} />
-          {error ? <p style={{ color: "#b42318" }}>{error}</p> : null}
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button className="btn btn-primary" type="submit">Login</button>
+    <div className="auth-page-full">
+      <Link className="auth-page-back-link" to="/">
+        ← Back to home
+      </Link>
+      <div className="auth-layout-card">
+        <section className="auth-layout-form-pane auth-fade-up">
+          <form className="auth-reference-form" onSubmit={onSubmit}>
+            <div className="auth-reference-brand">WedGuru</div>
+            <h1 className="auth-reference-title">Welcome back</h1>
+            <p className="auth-reference-subtitle">Login to continue your wedding planning journey.</p>
+
+            <label className="auth-reference-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              className="auth-reference-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@email.com"
+              required
+            />
+
+            <label className="auth-reference-label" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              className="auth-reference-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Your password"
+              required
+            />
+
+            {error ? <p className="auth-reference-error">{error}</p> : null}
+
+            <button className="auth-reference-submit" type="submit">
+              Login
+            </button>
+
             <button
-              className="btn btn-muted"
+              className="auth-reference-demo"
               type="button"
               onClick={() => {
-                void login("demo@wedguru.app", "WedGuru@123").then(() => navigate("/dashboard")).catch((err: Error) => setError(err.message));
+                void login("demo@wedguru.app", "WedGuru@123")
+                  .then(() => navigate("/dashboard"))
+                  .catch((err: Error) => setError(err.message));
               }}
             >
-              Try demo account
+              Use demo account
             </button>
+
+            <p className="auth-reference-footer">
+              New here? <Link to="/register">Create account</Link>
+            </p>
+          </form>
+        </section>
+
+        <section className="auth-layout-image-pane">
+          <img
+            className="auth-layout-image"
+            src="/auth-couple-login.png"
+            alt="Couple standing on beach during sunset"
+          />
+          <div className="auth-image-quote auth-fade-in">
+            <p className="auth-image-quote-text">"Plan together, stay on budget, and turn every wedding task into a calm, shared journey."</p>
           </div>
-          <p style={{ marginTop: 10 }}>New here? <Link to="/register">Create account</Link></p>
-        </form>
-        <AuthInsights title="One place for your full wedding journey" />
+        </section>
       </div>
     </div>
   );

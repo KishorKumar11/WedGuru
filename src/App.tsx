@@ -15,10 +15,11 @@ const Seating = lazy(() => import("./pages/Seating"));
 const PhotoWall = lazy(() => import("./pages/PhotoWall"));
 const Themes = lazy(() => import("./pages/Themes"));
 const AiPlanner = lazy(() => import("./pages/AiPlanner"));
+const Vendors = lazy(() => import("./pages/Vendors"));
 
 export default function App() {
   return (
-    <Suspense fallback={<div className="container page-shell">Loading...</div>}>
+    <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/photos" element={<PhotoWall />} />
           <Route path="/themes" element={<Themes />} />
           <Route path="/ai-planner" element={<AiPlanner />} />
+          <Route path="/vendors" element={<Vendors />} />
         </Route>
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>

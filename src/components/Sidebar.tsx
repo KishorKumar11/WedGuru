@@ -6,6 +6,7 @@ const links = [
   { to: "/checklist", label: "Checklist" },
   { to: "/budget", label: "Budget" },
   { to: "/guests", label: "Guests" },
+  { to: "/vendors", label: "Vendors" },
   { to: "/themes", label: "Themes" },
   { to: "/seating", label: "Seating" },
   { to: "/photos", label: "Photos" },

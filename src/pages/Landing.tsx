@@ -676,7 +676,7 @@ function Footer() {
       <Separator className="my-0" />
       <div className="text-center py-5">
         <span className="text-xs text-rose-400">
-          © 2025 WedGuru. Made with{" "}
+          © 2026 WedGuru. Made with{" "}
           <Heart size={11} fill="#d67ba0" color="#d67ba0" className="inline align-middle" />{" "}
           in Singapore.
         </span>

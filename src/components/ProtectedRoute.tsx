@@ -7,7 +7,7 @@ export default function ProtectedRoute({ children }: { children: ReactElement })
   const location = useLocation();
 
   if (isLoading) {
-    return <div className="container" style={{ padding: "2rem 0" }}>Loading...</div>;
+    return null;
   }
 
   if (!user) {
