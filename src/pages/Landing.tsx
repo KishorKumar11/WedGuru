@@ -36,20 +36,20 @@ const NAV_LINKS = [
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const FEATURES = [
-  { icon: CalendarCheck2, title: "Smart Checklist",   desc: "Phase-aware timeline that auto-generates tasks based on your wedding date, so nothing slips through.",                        accent: "#d67ba0" },
-  { icon: Wallet,         title: "Budget Control",    desc: "Track every dollar across 11 categories. Real-time donut chart keeps overspending impossible to ignore.",                     accent: "#b85c8a" },
-  { icon: Users,          title: "Guest Management", desc: "Invite, RSVP-track, and seat every guest with drag-and-drop table assignments.",                                               accent: "#9b4870" },
-  { icon: Palette,        title: "Theme Explorer",   desc: "Curated mood boards, color palettes, and visual references to lock in your wedding aesthetic.",                               accent: "#c86a95" },
-  { icon: Camera,         title: "Photo Wall",       desc: "A shared album where your wedding party contributes photos — one beautiful memory hub.",                                      accent: "#d67ba0" },
-  { icon: Sparkles,       title: "AI Planner",       desc: "Ask anything. Your AI wedding assistant helps with vendor ideas, timelines, and budget breakdowns.",                          accent: "#a0527a" },
+  { icon: CalendarCheck2, title: "Smart Checklist",       desc: "Phase-aware timeline with assignees and due dates. Filter by role, spot overdue tasks instantly.",                           accent: "#d67ba0" },
+  { icon: Wallet,         title: "Budget Control",        desc: "Track every dollar across 11 categories with per-category cap alerts and a real-time donut chart.",                         accent: "#b85c8a" },
+  { icon: Users,          title: "Guest Management",      desc: "Magic invite links, RSVP deadlines, dietary tags, CSV import/export, and drag-and-drop seating with conflict detection.",   accent: "#9b4870" },
+  { icon: Palette,        title: "Theme Explorer",        desc: "Curated mood boards with one-click suggestions that auto-populate your checklist and budget.",                              accent: "#c86a95" },
+  { icon: Camera,         title: "Photo Wall",            desc: "Shared album with moderation — party guests upload via a link, you approve before they go live.",                          accent: "#d67ba0" },
+  { icon: Sparkles,       title: "AI Planner",            desc: "Powered by Llama 3.3 via Groq. Ask about timelines, budgets, vendors, seating, and anything wedding-related.",             accent: "#a0527a" },
 ];
 
 const JOURNEY_STEPS = [
-  { step: "01", title: "Create your account",  desc: "Sign up in 30 seconds. Set your wedding date and location to personalise your entire planning experience.", icon: Heart,          color: "#fff1f6", border: "rgba(214,123,160,0.32)" },
-  { step: "02", title: "Build your checklist", desc: "Your AI-generated phase timeline kicks in immediately — tasks sorted from 12 months out to the big day.",   icon: CalendarCheck2, color: "#fce7f0", border: "rgba(200,106,149,0.30)" },
-  { step: "03", title: "Set your budget",      desc: "Enter your total budget. Add expected and actual costs per category, watch the donut chart fill up.",         icon: Wallet,         color: "#fff1f6", border: "rgba(184,92,138,0.30)" },
-  { step: "04", title: "Invite your guests",   desc: "Send magic invite links. Guests RSVP, share photos, and get auto-seated with your seating plan.",            icon: Users,          color: "#fce7f0", border: "rgba(214,123,160,0.32)" },
-  { step: "05", title: "Walk down the aisle",  desc: "Everything handled. Every seat filled. Every memory saved. Just show up and say I do.",                       icon: Sparkles,       color: "#fff5f8", border: "rgba(214,123,160,0.42)" },
+  { step: "01", title: "Create your account",   desc: "Sign up in 30 seconds. Run through the onboarding wizard — date, budget cap, guest count. Your dashboard is ready.", icon: Heart,          color: "#fff1f6", border: "rgba(214,123,160,0.32)" },
+  { step: "02", title: "Build your checklist",  desc: "Load the wedding template or add your own. Assign tasks to your partner, Best Man, or Maid of Honor — with due dates.", icon: CalendarCheck2, color: "#fce7f0", border: "rgba(200,106,149,0.30)" },
+  { step: "03", title: "Set your budget",       desc: "Enter your total cap. Per-category alerts fire when you're near or over. The donut chart shows spend at a glance.",     icon: Wallet,         color: "#fff1f6", border: "rgba(184,92,138,0.30)" },
+  { step: "04", title: "Invite guests & party", desc: "Send magic RSVP links with deadlines. Assign party tasks. Share a read-only family summary link with parents.",        icon: Users,          color: "#fce7f0", border: "rgba(214,123,160,0.32)" },
+  { step: "05", title: "Walk down the aisle",   desc: "Seating sorted, photos approved, AI planner consulted. Every seat filled. Just show up and say I do.",                 icon: Sparkles,       color: "#fff5f8", border: "rgba(214,123,160,0.42)" },
 ];
 
 

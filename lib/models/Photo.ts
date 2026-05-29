@@ -6,6 +6,8 @@ const PhotoSchema = new Schema(
     url: { type: String, required: true },
     caption: String,
     uploadedBy: String,
+    approved: { type: Boolean, default: true },
+    uploadToken: String,
   },
   { timestamps: true },
 );

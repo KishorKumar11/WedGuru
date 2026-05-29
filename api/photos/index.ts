@@ -1,10 +1,12 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { randomBytes } from "crypto";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getUserId } from "../../lib/api-auth.js";
+import { getEffectiveUserId } from "../../lib/api-auth.js";
 import { connectDb } from "../../lib/db.js";
 import Wedding from "../../lib/models/Wedding.js";
 import Photo from "../../lib/models/Photo.js";
+import UserModel from "../../lib/models/User.js";
 
 const createSchema = z.object({
   url: z.string().url(),
@@ -13,7 +15,7 @@ const createSchema = z.object({
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const userId = getUserId(req);
+  const userId = await getEffectiveUserId(req);
   if (!userId) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -26,7 +28,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === "GET") {
-    const items = await Photo.find().where("weddingId").equals(wedding._id).sort({ createdAt: -1 });
+    const showPending = req.query.pending === "true";
+    const query = Photo.find().where("weddingId").equals(wedding._id).sort({ createdAt: -1 });
+    if (!showPending) {
+      query.where("approved").ne(false);
+    }
+    const items = await query;
     return res.status(200).json({ items });
   }
 
@@ -40,8 +47,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       url: parsed.data.url,
       caption: parsed.data.caption,
       uploadedBy: parsed.data.uploadedBy,
+      approved: true,
     });
     return res.status(201).json({ item });
+  }
+
+  if (req.method === "PUT") {
+    const photoId = req.query.photoId;
+    if (!photoId || !Types.ObjectId.isValid(String(photoId))) {
+      return res.status(400).json({ error: "Missing photoId" });
+    }
+    const photo = await Photo.findOneAndUpdate(
+      { _id: photoId, weddingId: wedding._id },
+      { $set: { approved: req.body.approved } },
+      { new: true },
+    );
+    if (!photo) {
+      return res.status(404).json({ error: "Photo not found" });
+    }
+    return res.status(200).json({ item: photo });
+  }
+
+  if (req.method === "DELETE") {
+    const photoId = req.query.photoId;
+    if (!photoId || !Types.ObjectId.isValid(String(photoId))) {
+      return res.status(400).json({ error: "Missing photoId" });
+    }
+    await Photo.findOneAndDelete({ _id: photoId, weddingId: wedding._id });
+    return res.status(200).json({ ok: true });
+  }
+
+  if (req.method === "PATCH" && req.query.action === "party-token") {
+    const token = randomBytes(20).toString("hex");
+    await UserModel.findByIdAndUpdate(userId, { partyUploadToken: token });
+    return res.status(200).json({ token });
   }
 
   return res.status(405).json({ error: "Method not allowed" });

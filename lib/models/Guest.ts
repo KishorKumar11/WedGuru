@@ -12,6 +12,9 @@ export interface IGuest {
   songRequest?: string;
   tableNumber?: number;
   inviteToken: string;
+  rsvpDeadline?: Date;
+  conflictWith?: Schema.Types.ObjectId[];
+  seatTags?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,6 +32,9 @@ const GuestSchema = new Schema<IGuest>(
     songRequest: String,
     tableNumber: Number,
     inviteToken: { type: String, required: true, unique: true },
+    rsvpDeadline: Date,
+    conflictWith: [{ type: Schema.Types.ObjectId, ref: "Guest" }],
+    seatTags: [String],
   },
   { timestamps: true },
 );

@@ -7,6 +7,8 @@ export interface IChecklistItem {
   monthsBefore: string;
   isCompleted: boolean;
   order: number;
+  assignee?: string;
+  dueDate?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -19,6 +21,8 @@ const ChecklistSchema = new Schema<IChecklistItem>(
     monthsBefore: { type: String, required: true },
     isCompleted: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
+    assignee: { type: String, trim: true },
+    dueDate: Date,
   },
   { timestamps: true },
 );

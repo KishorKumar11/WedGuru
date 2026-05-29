@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const userObjectId = new Types.ObjectId(userId);
 
   if (req.method === "GET") {
-    const user = await User.findById(userObjectId).select("-password");
+    const user = await User.findById(userObjectId).select("-password -coplannerInviteToken");
     if (!user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
