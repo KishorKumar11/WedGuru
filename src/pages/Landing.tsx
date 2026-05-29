@@ -559,7 +559,6 @@ function ContactSection() {
             <div className="flex flex-col gap-6">
               {[
                 { icon: Mail,   label: "Email us",     val: "hello@wedguru.app",  href: "mailto:hello@wedguru.app" },
-                { icon: Phone,  label: "Call us",       val: "+65 9111 2222",      href: "tel:+6591112222" },
                 { icon: MapPin, label: "Headquarters",  val: "Singapore",          href: undefined },
               ].map(({ icon: Icon, label, val, href }) => (
                 <div key={label} className="flex items-start gap-4">
