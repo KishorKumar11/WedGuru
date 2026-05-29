@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Copy, Check, Users, Wallet, ListChecks, Calendar } from "lucide-react";
-import GlassCard from "../components/GlassCard";
+import { Copy, Check, Users, Wallet, ListChecks, Calendar, MapPin, Heart, Sparkles } from "lucide-react";
 import ProgressRing from "../components/ProgressRing";
 import { useAuth } from "../context/AuthContext";
 import { apiRequest } from "../lib/api";
@@ -72,8 +71,14 @@ export default function Dashboard() {
   );
 
   const guestConfirmed = guests.filter((g) => g.rsvpStatus === "accepted").length;
+  const guestPending = guests.filter((g) => g.rsvpStatus === "pending").length;
   const weddingDate = user?.weddingDate ? new Date(user.weddingDate) : new Date(Date.now() + 180 * 24 * 60 * 60 * 1000);
   const daysLeft = Math.max(0, Math.ceil((weddingDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000)));
+  const budgetPercent = budgetTotals.estimated > 0 ? Math.min(100, (budgetTotals.actual / budgetTotals.estimated) * 100) : 0;
+  const guestPercent = guests.length > 0 ? (guestConfirmed / guests.length) * 100 : 0;
+  const formattedDate = user?.weddingDate
+    ? new Date(user.weddingDate).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })
+    : "Date not set";
 
   const thisWeekTasks = useMemo(() => {
     if (!checklist.length) return [];
@@ -120,115 +125,165 @@ export default function Dashboard() {
   }
 
   return (
-    <section style={{ display: "grid", gap: 14 }}>
-      <GlassCard>
-        <h1 className="page-title">Dashboard</h1>
-        <p style={{ marginTop: 8 }}>
-          {user?.name} & {user?.partnerName || "Partner"} — {daysLeft} days to go
-        </p>
-        <p className="muted-label">Venue: {venue || "Not set"}</p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, marginTop: 10 }}>
-          <input
-            value={profileDraft.partnerName}
-            onChange={(e) => setProfileDraft((prev) => ({ ...prev, partnerName: e.target.value }))}
-            placeholder="Partner name"
-          />
-          <input
-            type="date"
-            value={profileDraft.weddingDate}
-            onChange={(e) => setProfileDraft((prev) => ({ ...prev, weddingDate: e.target.value }))}
-          />
-          <input value={venue} onChange={(e) => setVenue(e.target.value)} placeholder="Venue" />
-          <button className="btn btn-muted" type="button" onClick={() => void saveWeddingProfile()}>
-            Save
-          </button>
+    <section style={{ display: "grid", gap: 18 }}>
+      <div className="app-hero">
+        <h1 className="app-hero-title">
+          {user?.name || "You"} &amp; {user?.partnerName || "Partner"}
+        </h1>
+        <p className="app-hero-sub">Your wedding is coming together beautifully.</p>
+        <div className="app-hero-meta">
+          <span className="app-hero-pill">
+            <Heart size={14} fill="currentColor" /> {daysLeft} days to go
+          </span>
+          <span className="app-hero-pill">
+            <Calendar size={14} /> {formattedDate}
+          </span>
+          <span className="app-hero-pill">
+            <MapPin size={14} /> {venue || "Venue not set"}
+          </span>
         </div>
-        {profileMessage ? <p className="muted-label">{profileMessage}</p> : null}
-      </GlassCard>
+      </div>
 
-      <div className="responsive-grid-3">
-        <GlassCard title="Checklist progress">
-          <ProgressRing value={checklistPercent} />
-        </GlassCard>
-        <GlassCard title="Budget snapshot">
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Wallet size={16} />
-            <span>Estimated: ${budgetTotals.estimated.toFixed(0)}</span>
+      <div className="stat-grid">
+        <div className="stat-card">
+          <div className="stat-card-head">
+            <span className="stat-card-icon"><ListChecks size={18} /></span>
+            Checklist progress
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
-            <span style={{ marginLeft: 24 }}>Actual: ${budgetTotals.actual.toFixed(0)}</span>
+          <div className="stat-card-body">
+            <div>
+              <div className="stat-value">{Math.round(checklistPercent)}%</div>
+              <div className="stat-sub">{checklist.filter((i) => i.isCompleted).length} of {checklist.length} done</div>
+            </div>
+            <ProgressRing value={checklistPercent} />
           </div>
-        </GlassCard>
-        <GlassCard title="Guests">
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Users size={16} />
-            <span>Confirmed: {guestConfirmed} / {guests.length}</span>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-card-head">
+            <span className="stat-card-icon"><Wallet size={18} /></span>
+            Budget snapshot
           </div>
-          <p className="muted-label" style={{ marginTop: 4 }}>
-            Pending: {guests.filter((g) => g.rsvpStatus === "pending").length}
-          </p>
-        </GlassCard>
+          <div className="stat-card-body">
+            <div>
+              <div className="stat-value">${budgetTotals.actual.toFixed(0)}</div>
+              <div className="stat-sub">of ${budgetTotals.estimated.toFixed(0)} estimated</div>
+            </div>
+          </div>
+          <div className="stat-bar">
+            <div className="stat-bar-fill" style={{ width: `${budgetPercent}%` }} />
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-card-head">
+            <span className="stat-card-icon"><Users size={18} /></span>
+            Guest RSVPs
+          </div>
+          <div className="stat-card-body">
+            <div>
+              <div className="stat-value">{guestConfirmed}<span style={{ fontSize: "1rem", color: "#8a6d7b" }}> / {guests.length}</span></div>
+              <div className="stat-sub">{guestPending} awaiting reply</div>
+            </div>
+          </div>
+          <div className="stat-bar">
+            <div className="stat-bar-fill" style={{ width: `${guestPercent}%` }} />
+          </div>
+        </div>
       </div>
 
       {thisWeekTasks.length > 0 ? (
-        <GlassCard title={`Focus now — ${PHASE_MAP[getCurrentPhase(weddingDate)] ?? "upcoming"} tasks`}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-            <Calendar size={16} style={{ color: "var(--color-blush)" }} />
-            <span className="muted-label">{daysLeft} days left — top tasks for this phase</span>
-          </div>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 6 }}>
+        <div className="surface-card">
+          <h2 className="surface-card-title">
+            <Calendar size={18} /> Focus now — {PHASE_MAP[getCurrentPhase(weddingDate)] ?? "upcoming"} tasks
+          </h2>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 10 }}>
             {thisWeekTasks.map((task) => (
-              <li key={task._id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <ListChecks size={14} style={{ flexShrink: 0, color: "var(--color-blush)" }} />
-                <span>{task.title}</span>
+              <li
+                key={task._id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "0.7rem 0.85rem",
+                  borderRadius: 12,
+                  background: "rgba(214,123,160,0.08)",
+                }}
+              >
+                <ListChecks size={16} style={{ flexShrink: 0, color: "var(--love-700)" }} />
+                <span style={{ fontWeight: 500 }}>{task.title}</span>
                 {task.assignee ? (
-                  <span className="muted-label" style={{ fontSize: "0.78rem" }}>
-                    → {task.assignee}
-                  </span>
+                  <span className="feature-chip" style={{ marginLeft: "auto" }}>{task.assignee}</span>
                 ) : null}
               </li>
             ))}
           </ul>
-          <Link className="btn btn-muted" to="/checklist" style={{ marginTop: 10, display: "inline-block", fontSize: "0.85rem" }}>
+          <Link className="btn btn-muted" to="/checklist" style={{ marginTop: 14 }}>
             View all tasks
           </Link>
-        </GlassCard>
+        </div>
       ) : null}
 
-      <GlassCard title="Share & collaborate">
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button
-            className="btn btn-muted"
-            type="button"
-            onClick={() => void generateCoplannerInvite()}
-            style={{ display: "flex", alignItems: "center", gap: 6 }}
-          >
-            {copiedCoplanner ? <Check size={14} /> : <Copy size={14} />}
+      <div className="surface-card">
+        <h2 className="surface-card-title"><Sparkles size={18} /> Wedding details</h2>
+        <div className="dashboard-profile-grid">
+          <label style={{ display: "grid", gap: 6 }}>
+            <span className="muted-label" style={{ fontSize: "0.82rem" }}>Partner name</span>
+            <input
+              value={profileDraft.partnerName}
+              onChange={(e) => setProfileDraft((prev) => ({ ...prev, partnerName: e.target.value }))}
+              placeholder="Partner name"
+            />
+          </label>
+          <label style={{ display: "grid", gap: 6 }}>
+            <span className="muted-label" style={{ fontSize: "0.82rem" }}>Wedding date</span>
+            <input
+              type="date"
+              value={profileDraft.weddingDate}
+              onChange={(e) => setProfileDraft((prev) => ({ ...prev, weddingDate: e.target.value }))}
+            />
+          </label>
+          <label style={{ display: "grid", gap: 6 }}>
+            <span className="muted-label" style={{ fontSize: "0.82rem" }}>Venue</span>
+            <input value={venue} onChange={(e) => setVenue(e.target.value)} placeholder="Venue" />
+          </label>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 14 }}>
+          <button className="btn btn-primary" type="button" onClick={() => void saveWeddingProfile()}>
+            Save details
+          </button>
+          {profileMessage ? <span className="muted-label">{profileMessage}</span> : null}
+        </div>
+      </div>
+
+      <div className="surface-card">
+        <h2 className="surface-card-title"><Users size={18} /> Share &amp; collaborate</h2>
+        <div className="quick-actions">
+          <button className="btn btn-muted" type="button" onClick={() => void generateCoplannerInvite()}>
+            {copiedCoplanner ? <Check size={15} /> : <Copy size={15} />}
             {copiedCoplanner ? "Invite link copied!" : "Invite co-planner"}
           </button>
-          <button
-            className="btn btn-muted"
-            type="button"
-            onClick={() => void copyFamilyLink()}
-            style={{ display: "flex", alignItems: "center", gap: 6 }}
-          >
-            {copiedFamily ? <Check size={14} /> : <Copy size={14} />}
+          <button className="btn btn-muted" type="button" onClick={() => void copyFamilyLink()}>
+            {copiedFamily ? <Check size={15} /> : <Copy size={15} />}
             {copiedFamily ? "Family link copied!" : "Copy family summary link"}
           </button>
         </div>
-        <p className="muted-label" style={{ marginTop: 8, fontSize: "0.82rem" }}>
+        <p className="muted-label" style={{ marginTop: 10, fontSize: "0.82rem" }}>
           Co-planner link creates a second account with shared access. Family link is read-only.
         </p>
-      </GlassCard>
+      </div>
 
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <Link className="btn btn-primary" to="/checklist">Add task</Link>
-        <Link className="btn btn-muted" to="/budget">Add expense</Link>
-        <Link className="btn btn-muted" to="/guests">Add guest</Link>
-        <Link className="btn btn-muted" to="/themes">Explore themes</Link>
-        <Link className="btn btn-muted" to="/ai-planner">Ask AI planner</Link>
-        <Link className="btn btn-muted" to="/party-tasks">Party tasks</Link>
-        <Link className="btn btn-muted" to="/activity">Activity feed</Link>
+      <div className="surface-card">
+        <h2 className="surface-card-title"><Sparkles size={18} /> Quick actions</h2>
+        <div className="quick-actions">
+          <Link className="btn btn-primary" to="/checklist">Add task</Link>
+          <Link className="btn btn-muted" to="/budget">Add expense</Link>
+          <Link className="btn btn-muted" to="/guests">Add guest</Link>
+          <Link className="btn btn-muted" to="/themes">Explore themes</Link>
+          <Link className="btn btn-muted" to="/ai-planner">Ask AI planner</Link>
+          <Link className="btn btn-muted" to="/party-tasks">Party tasks</Link>
+          <Link className="btn btn-muted" to="/activity">Activity feed</Link>
+        </div>
       </div>
     </section>
   );

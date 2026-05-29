@@ -1,62 +1,76 @@
 import { NavLink } from "react-router-dom";
+import {
+  Activity,
+  Armchair,
+  Briefcase,
+  Camera,
+  Heart,
+  LayoutDashboard,
+  ListChecks,
+  PartyPopper,
+  Sparkles,
+  Users,
+  Wallet,
+  Palette,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
-const CORE_LINKS = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/checklist", label: "Checklist" },
-  { to: "/budget", label: "Budget" },
-  { to: "/guests", label: "Guests" },
-  { to: "/seating", label: "Seating" },
-  { to: "/themes", label: "Themes" },
-  { to: "/photos", label: "Photos" },
-  { to: "/party-tasks", label: "Party Tasks" },
-  { to: "/ai-planner", label: "AI Planner" },
-  { to: "/activity", label: "Activity" },
+type NavItem = { to: string; label: string; icon: LucideIcon };
+
+const CORE_LINKS: NavItem[] = [
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/checklist", label: "Checklist", icon: ListChecks },
+  { to: "/budget", label: "Budget", icon: Wallet },
+  { to: "/guests", label: "Guests", icon: Users },
+  { to: "/seating", label: "Seating", icon: Armchair },
+  { to: "/themes", label: "Themes", icon: Palette },
+  { to: "/photos", label: "Photos", icon: Camera },
+  { to: "/party-tasks", label: "Party Tasks", icon: PartyPopper },
+  { to: "/ai-planner", label: "AI Planner", icon: Sparkles },
+  { to: "/activity", label: "Activity", icon: Activity },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ open = false, onNavigate }: { open?: boolean; onNavigate?: () => void }) {
   const { user } = useAuth();
 
   return (
-    <aside className="glass" style={{ padding: "1rem", minWidth: 220 }}>
-      <h2 style={{ fontFamily: "var(--font-display)", marginTop: 0 }}>WedGuru</h2>
-      <nav style={{ display: "grid", gap: 6 }}>
-        {CORE_LINKS.map((link) => (
+    <aside className={`app-sidebar${open ? " open" : ""}`}>
+      <div className="app-brand">
+        <span className="app-brand-mark">
+          <Heart size={20} fill="currentColor" />
+        </span>
+        <span>
+          <span className="app-brand-name">WedGuru</span>
+          <span className="app-brand-tag">Wedding planner</span>
+        </span>
+      </div>
+
+      <nav className="app-nav">
+        <span className="app-nav-label">Plan</span>
+        {CORE_LINKS.map(({ to, label, icon: Icon }) => (
           <NavLink
-            key={link.to}
-            to={link.to}
-            style={({ isActive }) => ({
-              background: isActive ? "rgba(200,149,110,0.2)" : "transparent",
-              borderRadius: 10,
-              padding: "0.55rem 0.7rem",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              textDecoration: "none",
-              color: "inherit",
-              fontSize: "0.93rem",
-            })}
+            key={to}
+            to={to}
+            onClick={onNavigate}
+            className={({ isActive }) => `app-nav-link${isActive ? " active" : ""}`}
           >
-            <span>{link.label}</span>
+            <Icon size={18} />
+            <span>{label}</span>
           </NavLink>
         ))}
 
         {user?.role === "planner-pro" ? (
           <>
-            <hr style={{ border: "none", borderTop: "1px solid rgba(200,149,110,0.2)", margin: "4px 0" }} />
+            <hr className="app-sidebar-divider" />
+            <span className="app-nav-label">Pro</span>
             <NavLink
               to="/planner"
-              style={({ isActive }) => ({
-                background: isActive ? "rgba(200,149,110,0.2)" : "transparent",
-                borderRadius: 10,
-                padding: "0.55rem 0.7rem",
-                display: "flex",
-                textDecoration: "none",
-                color: "inherit",
-                fontSize: "0.93rem",
-              })}
+              onClick={onNavigate}
+              className={({ isActive }) => `app-nav-link${isActive ? " active" : ""}`}
             >
-              Planner Workspace
+              <Briefcase size={18} />
+              <span>Planner Workspace</span>
             </NavLink>
           </>
         ) : null}

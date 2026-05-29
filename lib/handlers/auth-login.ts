@@ -21,18 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await connectDb();
   const normalizedEmail = parsed.data.email.toLowerCase();
-  let user = await User.findOne({ email: normalizedEmail });
-
-  if (!user && normalizedEmail === "demo@wedguru.app" && parsed.data.password === "WedGuru@123") {
-    const hashedPassword = await bcrypt.hash(parsed.data.password, 12);
-    user = await User.create({
-      name: "Demo Couple",
-      email: normalizedEmail,
-      password: hashedPassword,
-      partnerName: "Alex",
-      role: "primary",
-    });
-  }
+  const user = await User.findOne({ email: normalizedEmail });
 
   if (!user) {
     return res.status(401).json({ error: "Invalid credentials" });

@@ -63,18 +63,6 @@ export default function Login() {
               Login
             </button>
 
-            <button
-              className="auth-reference-demo"
-              type="button"
-              onClick={() => {
-                void login("demo@wedguru.app", "WedGuru@123")
-                  .then(() => navigate("/dashboard"))
-                  .catch((err: Error) => setError(err.message));
-              }}
-            >
-              Use demo account
-            </button>
-
             <p className="auth-reference-footer">
               New here? <Link to="/register">Create account</Link>
             </p>
