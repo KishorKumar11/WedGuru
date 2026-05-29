@@ -1,18 +1,23 @@
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret) {
-  throw new Error("JWT_SECRET missing");
+export const JWT_CONFIG_ERROR =
+  "Server misconfigured: JWT_SECRET is not set. Add it under Vercel → Project → Settings → Environment Variables, then redeploy.";
+
+function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error(JWT_CONFIG_ERROR);
+  }
+  return secret;
 }
-const JWT_SECRET: string = jwtSecret;
 
 export function signAuthToken(userId: string) {
-  return jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: "7d" });
+  return jwt.sign({ sub: userId }, getJwtSecret(), { expiresIn: "7d" });
 }
 
 export function verifyAuthToken(token: string) {
-  return jwt.verify(token, JWT_SECRET) as { sub: string };
+  return jwt.verify(token, getJwtSecret()) as { sub: string };
 }
 
 export function authCookie(token: string) {

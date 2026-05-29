@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { authCookie, signAuthToken } from "../auth.js";
+import { JWT_CONFIG_ERROR, authCookie, signAuthToken } from "../auth.js";
 import { connectDb } from "../db.js";
 import User from "../models/User.js";
 
@@ -28,10 +28,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const password = await bcrypt.hash(parsed.data.password, 12);
-  const user = await User.create({ ...parsed.data, email, password });
-  const token = signAuthToken(String(user._id));
-  res.setHeader("Set-Cookie", authCookie(token));
-  return res.status(201).json({
-    user: { _id: String(user._id), name: user.name, email: user.email, partnerName: user.partnerName, weddingDate: user.weddingDate },
-  });
+  const user = await User.create({ ...parsed.data, email, password, role: "primary" });
+
+  try {
+    const token = signAuthToken(String(user._id));
+    res.setHeader("Set-Cookie", authCookie(token));
+    return res.status(201).json({
+      user: { _id: String(user._id), name: user.name, email: user.email, partnerName: user.partnerName, weddingDate: user.weddingDate },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Auth configuration error";
+    const status = message === JWT_CONFIG_ERROR ? 503 : 500;
+    return res.status(status).json({ error: message });
+  }
 }

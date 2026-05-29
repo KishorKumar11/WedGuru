@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
 
-const mongoUri = process.env.MONGODB_URI;
-if (!mongoUri) {
-  throw new Error("MONGODB_URI missing");
+export const DB_CONFIG_ERROR =
+  "Server misconfigured: MONGODB_URI is not set. Add it under Vercel → Project → Settings → Environment Variables, then redeploy.";
+
+function getMongoUri(): string {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error(DB_CONFIG_ERROR);
+  }
+  return uri;
 }
-const MONGODB_URI: string = mongoUri;
 
 declare global {
   // eslint-disable-next-line no-var
@@ -19,7 +24,7 @@ export async function connectDb() {
     return cache.conn;
   }
   if (!cache.promise) {
-    cache.promise = mongoose.connect(MONGODB_URI);
+    cache.promise = mongoose.connect(getMongoUri());
   }
   cache.conn = await cache.promise;
   return cache.conn;
