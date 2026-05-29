@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm run build",
+    "test": "node --import tsx --test lib/api-path.test.ts && npm run build",
     "seed:user": "npx tsx scripts/seed-test-user.ts"
   },
   "dependencies": {
