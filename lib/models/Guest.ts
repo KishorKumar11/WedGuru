@@ -1,7 +1,8 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Types } from "mongoose";
 
 export interface IGuest {
-  userId: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
   name: string;
   email?: string;
   phone?: string;
@@ -13,10 +14,10 @@ export interface IGuest {
   tableNumber?: number;
   inviteToken: string;
   rsvpDeadline?: Date;
-  conflictWith?: Schema.Types.ObjectId[];
+  conflictWith?: Types.ObjectId[];
   seatTags?: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const GuestSchema = new Schema<IGuest>(

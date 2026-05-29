@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getEffectiveUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import ChecklistItem from "../../lib/models/ChecklistItem.js";
-import { logActivity } from "../../lib/activity.js";
+import { getEffectiveUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import ChecklistItem from "../models/ChecklistItem.js";
+import { logActivity } from "../activity.js";
 
 const schema = z.object({
   title: z.string().min(2).max(140),
@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const userObjectId = new Types.ObjectId(userId);
   await connectDb();
   if (req.method === "GET") {
-    const items = await ChecklistItem.find().where("userId").equals(userObjectId).sort({ order: 1 });
+    const items = await ChecklistItem.find({ userId: userObjectId }).sort({ order: 1 });
     return res.status(200).json({ items });
   }
   if (req.method === "POST") {

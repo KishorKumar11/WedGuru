@@ -1,15 +1,16 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Types } from "mongoose";
 
 export interface IBudgetItem {
-  userId: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
   category: string;
   vendor: string;
   estimated: number;
   actual: number;
   paid: boolean;
   notes?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const BudgetSchema = new Schema<IBudgetItem>(

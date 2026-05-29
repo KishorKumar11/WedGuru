@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { connectDb } from "../../lib/db.js";
-import Guest from "../../lib/models/Guest.js";
-import Wedding from "../../lib/models/Wedding.js";
+import { connectDb } from "../db.js";
+import Guest from "../models/Guest.js";
+import Wedding from "../models/Wedding.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const token = String(req.query.token);

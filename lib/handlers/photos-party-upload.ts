@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { connectDb } from "../../lib/db.js";
-import UserModel from "../../lib/models/User.js";
-import WeddingModel from "../../lib/models/Wedding.js";
-import Photo from "../../lib/models/Photo.js";
+import { connectDb } from "../db.js";
+import UserModel from "../models/User.js";
+import WeddingModel from "../models/Wedding.js";
+import Photo from "../models/Photo.js";
 
 const schema = z.object({
   token: z.string().min(1),

@@ -2,10 +2,10 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { randomBytes } from "crypto";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getEffectiveUserId, getUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import Wedding from "../../lib/models/Wedding.js";
-import UserModel from "../../lib/models/User.js";
+import { getEffectiveUserId, getUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import Wedding from "../models/Wedding.js";
+import UserModel from "../models/User.js";
 
 const schema = z.object({
   weddingDate: z.string().datetime({ offset: true }).optional(),
@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await connectDb();
   const userObjectId = new Types.ObjectId(userId);
-  let wedding = await Wedding.findOne().where("userId").equals(userObjectId);
+  let wedding = await Wedding.findOne({ userId: userObjectId });
   if (!wedding) {
     wedding = await Wedding.create({ userId: userObjectId });
   }

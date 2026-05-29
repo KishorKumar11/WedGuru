@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { authCookie, signAuthToken } from "../../lib/auth.js";
-import { connectDb } from "../../lib/db.js";
-import User from "../../lib/models/User.js";
+import { authCookie, signAuthToken } from "../auth.js";
+import { connectDb } from "../db.js";
+import User from "../models/User.js";
 
 const schema = z.object({
   email: z.string().email(),
@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await connectDb();
   const normalizedEmail = parsed.data.email.toLowerCase();
-  let user = await User.findOne().where("email").equals(normalizedEmail);
+  let user = await User.findOne({ email: normalizedEmail });
 
   if (!user && normalizedEmail === "demo@wedguru.app" && parsed.data.password === "WedGuru@123") {
     const hashedPassword = await bcrypt.hash(parsed.data.password, 12);

@@ -1,12 +1,13 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Types } from "mongoose";
 
 export interface IWedding {
-  userId: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
   weddingDate?: Date;
   venue?: string;
   budgetTotal: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const WeddingSchema = new Schema<IWedding>(

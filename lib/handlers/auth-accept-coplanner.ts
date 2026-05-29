@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { authCookie, signAuthToken } from "../../lib/auth.js";
-import { connectDb } from "../../lib/db.js";
-import UserModel from "../../lib/models/User.js";
+import { authCookie, signAuthToken } from "../auth.js";
+import { connectDb } from "../db.js";
+import UserModel from "../models/User.js";
 import bcrypt from "bcryptjs";
 
 const schema = z.object({
@@ -45,6 +45,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     weddingDate: primaryUser.weddingDate,
     partnerName: primaryUser.name,
   });
+
+  if (!coplanner) {
+    return res.status(500).json({ error: "Failed to create co-planner account" });
+  }
 
   await UserModel.findByIdAndUpdate(primaryUser._id, { $unset: { coplannerInviteToken: 1 } });
 

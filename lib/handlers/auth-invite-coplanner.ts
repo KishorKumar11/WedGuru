@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { randomBytes } from "crypto";
-import { getUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import UserModel from "../../lib/models/User.js";
+import { getUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import UserModel from "../models/User.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {

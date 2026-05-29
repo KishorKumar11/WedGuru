@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { clearAuthCookie } from "../../lib/auth.js";
-import { getUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import User from "../../lib/models/User.js";
+import { clearAuthCookie } from "../auth.js";
+import { getUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import User from "../models/User.js";
 
 const updateSchema = z.object({
   partnerName: z.string().trim().min(1).max(80).optional(),

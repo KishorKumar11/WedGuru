@@ -3,10 +3,10 @@ import crypto from "crypto";
 import { Types } from "mongoose";
 import { stringify } from "csv-stringify/sync";
 import { z } from "zod";
-import { getEffectiveUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import Guest from "../../lib/models/Guest.js";
-import { logActivity } from "../../lib/activity.js";
+import { getEffectiveUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import Guest from "../models/Guest.js";
+import { logActivity } from "../activity.js";
 
 const createSchema = z.object({
   name: z.string().min(1).max(120).trim(),
@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   await connectDb();
 
   if (req.method === "GET") {
-    const items = await Guest.find().where("userId").equals(userObjectId).sort({ createdAt: -1 });
+    const items = await Guest.find({ userId: userObjectId }).sort({ createdAt: -1 });
 
     if (req.query.format === "csv") {
       const csv = stringify(

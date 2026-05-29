@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { authCookie, signAuthToken } from "../../lib/auth.js";
-import { connectDb } from "../../lib/db.js";
-import User from "../../lib/models/User.js";
+import { authCookie, signAuthToken } from "../auth.js";
+import { connectDb } from "../db.js";
+import User from "../models/User.js";
 
 const schema = z.object({
   name: z.string().min(2).max(60),
@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await connectDb();
   const email = parsed.data.email.toLowerCase();
-  const existingUser = await User.findOne().where("email").equals(email);
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(409).json({ error: "Email already used" });
   }

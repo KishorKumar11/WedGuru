@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { getUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import UserModel from "../../lib/models/User.js";
-import GuestModel from "../../lib/models/Guest.js";
-import BudgetItemModel from "../../lib/models/BudgetItem.js";
-import ChecklistItemModel from "../../lib/models/ChecklistItem.js";
+import { getUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import UserModel from "../models/User.js";
+import GuestModel from "../models/Guest.js";
+import BudgetItemModel from "../models/BudgetItem.js";
+import ChecklistItemModel from "../models/ChecklistItem.js";
 
 const inviteSchema = z.object({
   coupleEmail: z.string().email().toLowerCase().trim(),

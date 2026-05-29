@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
-import { getUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import BudgetItem from "../../lib/models/BudgetItem.js";
+import { getUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import BudgetItem from "../models/BudgetItem.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const userId = getUserId(req);
@@ -13,17 +13,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const userObjectId = new Types.ObjectId(userId);
   await connectDb();
   if (req.method === "PUT") {
-    const item = await BudgetItem.findOneAndUpdate()
-      .where("_id")
-      .equals(itemObjectId)
-      .where("userId")
-      .equals(userObjectId)
-      .set(req.body)
-      .setOptions({ new: true });
+    const item = await BudgetItem.findOneAndUpdate(
+      { _id: itemObjectId, userId: userObjectId },
+      { $set: req.body },
+      { new: true },
+    );
     return res.status(200).json({ item });
   }
   if (req.method === "DELETE") {
-    await BudgetItem.findOneAndDelete().where("_id").equals(itemObjectId).where("userId").equals(userObjectId);
+    await BudgetItem.findOneAndDelete({ _id: itemObjectId, userId: userObjectId });
     return res.status(200).json({ ok: true });
   }
   return res.status(405).json({ error: "Method not allowed" });

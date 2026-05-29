@@ -1,13 +1,14 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Types } from "mongoose";
 
 export interface IPartyTask {
-  userId: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
   assignedTo: string;
   title: string;
   dueDate?: Date;
   isCompleted: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const PartyTaskSchema = new Schema<IPartyTask>(

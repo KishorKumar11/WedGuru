@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getEffectiveUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import Guest from "../../lib/models/Guest.js";
+import { getEffectiveUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import Guest from "../models/Guest.js";
 
 const patchSchema = z.object({
   rsvpStatus: z.enum(["pending", "accepted", "declined"]).optional(),

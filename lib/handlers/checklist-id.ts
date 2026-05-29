@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getEffectiveUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import ChecklistItem from "../../lib/models/ChecklistItem.js";
+import { getEffectiveUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import ChecklistItem from "../models/ChecklistItem.js";
 
 const patchSchema = z.object({
   isCompleted: z.boolean().optional(),

@@ -1,7 +1,8 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Types } from "mongoose";
 
 export interface IChecklistItem {
-  userId: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
   title: string;
   category: string;
   monthsBefore: string;
@@ -9,8 +10,8 @@ export interface IChecklistItem {
   order: number;
   assignee?: string;
   dueDate?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const ChecklistSchema = new Schema<IChecklistItem>(

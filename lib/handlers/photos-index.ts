@@ -2,11 +2,11 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { randomBytes } from "crypto";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getEffectiveUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import Wedding from "../../lib/models/Wedding.js";
-import Photo from "../../lib/models/Photo.js";
-import UserModel from "../../lib/models/User.js";
+import { getEffectiveUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import Wedding from "../models/Wedding.js";
+import Photo from "../models/Photo.js";
+import UserModel from "../models/User.js";
 
 const createSchema = z.object({
   url: z.string().url(),
@@ -22,18 +22,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await connectDb();
   const userObjectId = new Types.ObjectId(userId);
-  let wedding = await Wedding.findOne().where("userId").equals(userObjectId);
+  let wedding = await Wedding.findOne({ userId: userObjectId });
   if (!wedding) {
     wedding = await Wedding.create({ userId: userObjectId });
   }
 
   if (req.method === "GET") {
     const showPending = req.query.pending === "true";
-    const query = Photo.find().where("weddingId").equals(wedding._id).sort({ createdAt: -1 });
+    const filter: Record<string, unknown> = { weddingId: wedding._id };
     if (!showPending) {
-      query.where("approved").ne(false);
+      filter.approved = { $ne: false };
     }
-    const items = await query;
+    const items = await Photo.find(filter).sort({ createdAt: -1 });
     return res.status(200).json({ items });
   }
 
@@ -58,7 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Missing photoId" });
     }
     const photo = await Photo.findOneAndUpdate(
-      { _id: photoId, weddingId: wedding._id },
+      { _id: new Types.ObjectId(String(photoId)), weddingId: wedding._id },
       { $set: { approved: req.body.approved } },
       { new: true },
     );
@@ -73,7 +73,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!photoId || !Types.ObjectId.isValid(String(photoId))) {
       return res.status(400).json({ error: "Missing photoId" });
     }
-    await Photo.findOneAndDelete({ _id: photoId, weddingId: wedding._id });
+    await Photo.findOneAndDelete({ _id: new Types.ObjectId(String(photoId)), weddingId: wedding._id });
     return res.status(200).json({ ok: true });
   }
 

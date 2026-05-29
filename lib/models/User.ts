@@ -1,20 +1,22 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Types } from "mongoose";
 
 export type UserRole = "primary" | "co-planner" | "planner-pro";
 
 export interface IUser {
+  _id: Types.ObjectId;
   email: string;
   password: string;
   name: string;
   partnerName?: string;
   weddingDate?: Date;
   role: UserRole;
-  coplannerOf?: Schema.Types.ObjectId;
+  coplannerOf?: Types.ObjectId;
   coplannerInviteToken?: string;
-  managedCouples?: Schema.Types.ObjectId[];
+  managedCouples?: Types.ObjectId[];
   familyToken?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  partyUploadToken?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -29,6 +31,7 @@ const UserSchema = new Schema<IUser>(
     coplannerInviteToken: String,
     managedCouples: [{ type: Schema.Types.ObjectId, ref: "User" }],
     familyToken: { type: String, sparse: true },
+    partyUploadToken: String,
   },
   { timestamps: true },
 );

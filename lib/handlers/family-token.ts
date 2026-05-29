@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { connectDb } from "../../lib/db.js";
-import UserModel from "../../lib/models/User.js";
-import BudgetItemModel from "../../lib/models/BudgetItem.js";
-import GuestModel from "../../lib/models/Guest.js";
+import { connectDb } from "../db.js";
+import UserModel from "../models/User.js";
+import BudgetItemModel from "../models/BudgetItem.js";
+import GuestModel from "../models/Guest.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

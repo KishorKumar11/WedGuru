@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import Groq from "groq-sdk";
 import { z } from "zod";
-import { getUserId } from "../../lib/api-auth.js";
+import { getUserId } from "../api-auth.js";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 

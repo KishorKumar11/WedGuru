@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Types } from "mongoose";
 import { z } from "zod";
-import { getUserId } from "../../lib/api-auth.js";
-import { connectDb } from "../../lib/db.js";
-import PartyTaskModel from "../../lib/models/PartyTask.js";
+import { getUserId } from "../api-auth.js";
+import { connectDb } from "../db.js";
+import PartyTaskModel from "../models/PartyTask.js";
 
 const schema = z.object({
   assignedTo: z.string().min(1).max(80).trim(),
@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const userObjectId = new Types.ObjectId(userId);
 
   if (req.method === "GET") {
-    const items = await PartyTaskModel.find().where("userId").equals(userObjectId).sort({ createdAt: -1 }).lean();
+    const items = await PartyTaskModel.find({ userId: userObjectId }).sort({ createdAt: -1 }).lean();
     return res.status(200).json({ items });
   }
 
