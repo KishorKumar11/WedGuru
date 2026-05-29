@@ -13,3 +13,7 @@ test("pathSegmentsFromQuery splits array segments", () => {
 test("pathSegmentsFromQuery splits slash-joined string", () => {
   assert.deepEqual(pathSegmentsFromQuery("auth/login"), ["auth", "login"]);
 });
+
+test("pathSegmentsFromQuery handles rewrite capture guests/abc", () => {
+  assert.deepEqual(pathSegmentsFromQuery("guests/abc123"), ["guests", "abc123"]);
+});

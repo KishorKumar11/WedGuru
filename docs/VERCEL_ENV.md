@@ -1,5 +1,11 @@
 # Vercel environment variables
 
+## API routing
+
+All `/api/*` requests (except `/api/auth/login`, `register`, `me`) are rewritten to `api/index.ts` via `vercel.json`. Auth endpoints also have dedicated files under `api/auth/` so login works even if rewrites change.
+
+After changing `vercel.json` or `api/`, **redeploy** — a normal env-only save is not enough.
+
 Add these in **Vercel → WedGuru → Settings → Environment Variables**.
 
 Enable for **Production**, **Preview**, and **Development**. Then **Redeploy**.
