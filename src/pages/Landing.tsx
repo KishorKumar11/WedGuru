@@ -11,7 +11,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Mail,
-  Phone,
   MapPin,
   ChevronDown,
   Heart,
