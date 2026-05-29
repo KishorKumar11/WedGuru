@@ -53,7 +53,7 @@ export const weddingThemeIdeas: ThemeIdea[] = [
     name: "Beach Breeze",
     category: "beach",
     description: "Sea-inspired hues, light textures, sunset shoreline moments.",
-    imageUrl: "https://images.unsplash.com/photo-1513278974582-3e1b4a4fa21d?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     palette: ["#ecf7fb", "#9ac9da", "#4f8ea8", "#1e5167"],
   },
 ];

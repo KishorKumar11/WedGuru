@@ -83,7 +83,7 @@ export default function AiPlanner() {
       <GlassCard>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Sparkles size={20} style={{ color: "var(--color-blush)" }} />
+            <Sparkles size={20} style={{ color: "var(--rose-500)" }} />
             <h1 className="page-title" style={{ margin: 0 }}>
               AI Planner
             </h1>
@@ -98,37 +98,15 @@ export default function AiPlanner() {
         </p>
       </GlassCard>
 
-      <div
-        className="glass"
-        style={{
-          padding: "1rem",
-          minHeight: 400,
-          maxHeight: "60vh",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-        }}
-      >
+      <div className="glass chat-panel">
         <AnimatePresence initial={false}>
           {messages.map((msg, i) => (
             <motion.article
               key={i}
+              className={`chat-message ${msg.role === "user" ? "chat-message--user" : "chat-message--assistant"}`}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              style={{
-                alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-                maxWidth: "80%",
-                background: msg.role === "user" ? "var(--color-blush)" : "rgba(255,255,255,0.7)",
-                color: msg.role === "user" ? "#fff" : "inherit",
-                borderRadius: msg.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                padding: "0.7rem 1rem",
-                fontSize: "0.92rem",
-                lineHeight: 1.55,
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
-              }}
             >
               {msg.content}
             </motion.article>
@@ -136,17 +114,13 @@ export default function AiPlanner() {
         </AnimatePresence>
 
         {isLoading ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            style={{ alignSelf: "flex-start", display: "flex", gap: 4, padding: "0.7rem 1rem", background: "rgba(255,255,255,0.7)", borderRadius: "16px 16px 16px 4px" }}
-          >
+          <motion.div className="chat-typing" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             {[0, 1, 2].map((i) => (
               <motion.span
                 key={i}
+                className="chat-typing-dot"
                 animate={{ y: [0, -5, 0] }}
                 transition={{ repeat: Infinity, duration: 0.8, delay: i * 0.15 }}
-                style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--color-blush)", display: "block" }}
               />
             ))}
           </motion.div>

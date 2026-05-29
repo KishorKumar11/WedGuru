@@ -63,16 +63,16 @@ export default function Themes() {
             <ThemeCard theme={theme} />
             {getThemeSuggestions(theme.category) ? (
               <GlassCard>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                  <span style={{ fontSize: "0.85rem" }}>
+                <div className="theme-apply-row">
+                  <span className="theme-apply-label">
                     Apply {theme.category} tasks + budget
                   </span>
                   <button
-                    className={applied.has(theme.category) ? "btn btn-muted" : "btn btn-primary"}
+                    className={`${applied.has(theme.category) ? "btn btn-muted" : "btn btn-primary"} btn-compact`}
                     type="button"
                     disabled={applying === theme.category || applied.has(theme.category)}
                     onClick={() => void applyTheme(theme.category)}
-                    style={{ display: "flex", alignItems: "center", gap: 5, fontSize: "0.82rem", padding: "5px 12px" }}
+                    style={{ display: "inline-flex", alignItems: "center", gap: 5 }}
                   >
                     {applied.has(theme.category) ? (
                       <><Check size={12} /> Applied</>
