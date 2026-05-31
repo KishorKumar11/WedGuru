@@ -484,10 +484,10 @@ function DemoBudget() {
 
 function DemoGuests() {
   const guests = [
-    { name: "Anjali Mehta", table: "Table 3", status: "confirmed" },
-    { name: "Rohit Verma",  table: "Table 1", status: "confirmed" },
-    { name: "Deepa Iyer",   table: "Table 5", status: "pending"   },
-    { name: "Sanjay Nair",  table: "Table 2", status: "confirmed" },
+    { name: "Anjali Mehta",   table: "Table 3", status: "confirmed" },
+    { name: "James Carter",   table: "Table 1", status: "confirmed" },
+    { name: "Sarah Mitchell", table: "Table 5", status: "pending"   },
+    { name: "Rohit Verma",    table: "Table 2", status: "confirmed" },
   ];
   return (
     <div className="flex flex-col gap-2">
